@@ -54,7 +54,7 @@ mhat = np.random.uniform(0,1, size=3)
 ahat = np.random.uniform(0,1, size=(3,3))
 w = 3.
 
-GH.EM(ahat, mhat, w)
+P.EM(ahat, mhat, w)
 ```
 which will give output something like:
 ```

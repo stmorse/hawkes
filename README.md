@@ -46,7 +46,12 @@ P.generate_seq(60)
 P.plot_events()
 ```
 
-ADD IMAGE
+![Dim 3 event plot](img/example_events_dim3.png)
+
+We can also look at the conditional intensities along with the time series of events:
+
+![Dim 3 rates plot](img/example_rates_dim3.png)
+
 
 We can learn the parameters of an already generated sequence by simply calling `EM` with some guesses at `alpha` and `mu` (and a hyperparameter `omega`),
 ```python

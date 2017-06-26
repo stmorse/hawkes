@@ -31,7 +31,7 @@ You can then plot the events with
 P.plot_events()
 ```
 
-ADD IMAGE
+![Dim 1 event plot](img/example_events_dim1.png)
 
 For a more interesting test, try engineering your own parameters.  Here is an example with `dim=3`:
 ```python

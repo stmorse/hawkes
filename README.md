@@ -80,5 +80,5 @@ This is already a reasonable approximation to the actual ground truth values fro
 
 # Summary
 
-This is a bare bones collection of code that is hopefully helpful to someone dipping his/her toes in the waters of multivariate point processes.  For more robust packages, or a more indepth look at behind-the-scenes, check out [this blog post]() which covers some basic theoretical concepts and also links to some other more expansive code repos out there.
+This is a bare bones collection of code that is hopefully helpful to someone dipping his/her toes in the waters of multivariate point processes.  For more robust packages, or a more indepth look at behind-the-scenes, check out [this blog post](https://stmorse.github.io/journal/Hawkes-python.html) which covers some basic theoretical concepts and also links to some other more expansive code repos out there.
 

@@ -226,19 +226,13 @@ class MHP:
             np.sum([self.alpha[d,int(j)]*self.omega*np.exp(-self.omega*(ct-t)) for t,j in seq])
 
     def plot_rates(self, horizon=-1):
-        # there is certainly a way to modify this function to plot when dim != 3,
-        # but this is a TODO
-        
-        if self.dim != 3:
-            print('Not yet implemented.  Dimension must be 3 to plot rates.')
-            return
 
         if horizon < 0:
             horizon = np.amax(self.data[:,0])
 
-        f, axarr = plt.subplots(6,1, sharex='col', 
-                                gridspec_kw = {'height_ratios':[3,1,3,1,3,1]}, 
-                                figsize=(8,5))
+        f, axarr = plt.subplots(self.dim*2,1, sharex='col', 
+                                gridspec_kw = {'height_ratios':sum([[3,1] for i in range(self.dim)],[])}, 
+                                figsize=(8,self.dim*2))
         xs = np.linspace(0, horizon, (horizon/100.)*1000)
         for i in range(self.dim):
             row = i * 2

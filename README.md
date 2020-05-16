@@ -1,6 +1,6 @@
 # Python class for Multivariate Hawkes Processes
 
-This repo provides a class `MHP` for doing basic experimentation with a Hawkes process.  It works for both uni- and multivariate processes, and implements both synthetic sequence generation and parameter estimation of a known sequence.  I use a MAP EM algorithm for parameter estimation that is described in [this unpublished report](https://stmorse.github.io/docs/6-867-final-writeup.pdf) for the univariate case, and [my masters thesis](https://stmorse.github.io/docs/orc-thesis.pdf) for the multivariate case.
+This repo provides a class `MHP` for doing basic experimentation with a Hawkes process.  It works for both uni- and multivariate processes, and implements both synthetic sequence generation and parameter estimation of a known sequence.  I use a MAP EM algorithm for parameter estimation that is described in [this preprint](https://arxiv.org/abs/2005.06542) and in a bit more detail in [my masters thesis](https://stmorse.github.io/docs/orc-thesis.pdf), both for the multivariate case.  Please consider citing the preprint if you find the MAP EM approach helpful for your research, thank you!
 
 There is a blog post [here](https://stmorse.github.io/journal/Hawkes-python.html) describing more details, such as theoretical preliminaries and some suggested usage and further reading. 
 

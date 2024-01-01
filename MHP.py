@@ -14,7 +14,6 @@
 
 
 import numpy as np
-import time as T
 
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.utils.extmath import cartesian
@@ -22,7 +21,7 @@ from sklearn.utils.extmath import cartesian
 import matplotlib.pyplot as plt
 
 class MHP:
-    def __init__(self, alpha=[[0.5]], mu=[0.1], omega=1.0):
+    def __init__(self, alpha=[[0.5]], mu=[0.1], omega=1.0, seed=None):
         '''params should be of form:
         alpha: numpy.array((u,u)), mu: numpy.array((,u)), omega: float'''
         
@@ -30,6 +29,7 @@ class MHP:
         self.alpha, self.mu, self.omega = np.array(alpha), np.array(mu), omega
         self.dim = self.mu.shape[0]
         self.check_stability()
+        self.rng = np.random.default_rng(seed=seed)
 
     def check_stability(self):
         ''' check stability of process (max alpha eigenvalue < 1)'''
@@ -46,16 +46,16 @@ class MHP:
         self.data = []  # clear history
 
         Istar = np.sum(self.mu)
-        s = np.random.exponential(scale=1./Istar)
+        s = self.rng.exponential(scale=1./Istar)
 
         # attribute (weighted random sample, since sum(mu)==Istar)
-        n0 = np.random.choice(np.arange(self.dim), 
-                              1, 
+        n0 = self.rng.choice(np.arange(self.dim), 1, 
                               p=(self.mu / Istar))
-        self.data.append([s, n0])
+        self.data.append([s, n0[0]])
 
         # value of \lambda(t_k) where k is most recent event
         # starts with just the base rate
+        rates = 0
         lastrates = self.mu.copy()
 
         decIstar = False
@@ -72,7 +72,7 @@ class MHP:
                         self.omega * np.sum(self.alpha[:,uj])
 
             # generate new event
-            s += np.random.exponential(scale=1./Istar)
+            s += self.rng.exponential(scale=1./Istar)
 
             # calc rates at time s (use trick to take advantage of rates at last event)
             rates = self.mu + np.exp(-self.omega * (s - tj)) * \
@@ -82,7 +82,7 @@ class MHP:
             # handle attribution and thinning in one step as weighted random sample
             diff = Istar - np.sum(rates)
             try:
-                n0 = np.random.choice(np.arange(self.dim+1), 1, 
+                n0 = self.rng.choice(np.arange(self.dim+1), 1, 
                                       p=(np.append(rates, diff) / Istar))
             except ValueError:
                 # by construction this should not happen
@@ -91,7 +91,7 @@ class MHP:
                 return self.data
 
             if n0 < self.dim:
-                self.data.append([s, n0])
+                self.data.append([s, n0[0]])
                 # update lastrates
                 lastrates = rates.copy()
             else:
@@ -157,7 +157,6 @@ class MHP:
 
         k = 0
         old_LL = -10000
-        START = T.time()
         while k < maxiter:
             Auu = Ahat[rowidx, colidx]
             ag = np.multiply(Auu, kern)
@@ -233,7 +232,7 @@ class MHP:
         f, axarr = plt.subplots(self.dim*2,1, sharex='col', 
                                 gridspec_kw = {'height_ratios':sum([[3,1] for i in range(self.dim)],[])}, 
                                 figsize=(8,self.dim*2))
-        xs = np.linspace(0, horizon, (horizon/100.)*1000)
+        xs = np.linspace(0, horizon, int((horizon/100.)*1000))
         for i in range(self.dim):
             row = i * 2
 
@@ -269,9 +268,7 @@ class MHP:
                 plt.plot([j,j], [-self.dim, 1], 'k:', alpha=0.15)
 
         if labeled:
-            ax.set_yticklabels('')
-            ax.set_yticks(-np.arange(0, self.dim), minor=True)
-            ax.set_yticklabels([r'$e_{%d}$' % i for i in range(self.dim)], minor=True)
+            ax.set_yticks(-np.arange(0, self.dim), labels=[r'$e_{%d}$' % i for i in range(self.dim)])
         else:
             ax.yaxis.set_visible(False)
 

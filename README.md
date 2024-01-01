@@ -13,7 +13,7 @@ The `MHP.py` file contains a single class, `MHP`.  The core methods are:
 
 2. `EM`: uses a Bayesian EM algorithm to learn parameters, given a sequence and estimates of `alpha`, `mu`, and `omega`.  It treats `omega` as a hyperparameter and does not optimize over this parameter.  For more details see [the report](https://stmorse.github.io/docs/6-867-final-writeup.pdf), [my thesis](https://stmorse.github.io/docs/orc-thesis.pdf), or [this blog post](https://stmorse.github.io/blog).
 
-There are also two visualization methods, `plot_events` (which plots only the time series of events), and `plot_rates` (which plots the time series with the corresponding conditional intensities, currently only implemented for `dim=3`).
+There are also two visualization methods, `plot_events` (which plots only the time series of events), and `plot_rates` (which plots the time series with the corresponding conditional intensities).
 
 
 # Usage
@@ -58,21 +58,21 @@ We can learn the parameters of an already generated sequence by simply calling `
 mhat = np.random.uniform(0,1, size=3)
 ahat = np.random.uniform(0,1, size=(3,3))
 w = 3.
-
+np.set_printoptions(precision=3,suppress=True)
 P.EM(ahat, mhat, w)
 ```
 which will give output something like:
 ```
-After ITER 0 (old: -10000.000 new: -0.129)
- terms 5.1766, 17.4638, 8.5362
-After ITER 10 (old: -0.129 new: -1.349)
- terms -20.8908, 11.8172, 14.1828
-Reached stopping criterion. (Old: -1.349 New: -1.350)
+After ITER 0 (old: -10000.000 new: -0.044)
+ terms 9.4483, 15.4094, 10.5906
+After ITER 10 (old: -0.044 new: -1.509)
+ terms -25.8799, 12.6529, 13.3471
+Reached stopping criterion. (Old: -1.509 New: -1.509)
 
-(array([[ 0.0223,  0.1475,  0.    ],
-        [ 0.5954,  0.    ,  0.    ],
-        [ 0.    ,  0.625 ,  0.    ]]), 
- array([ 0.2038,  0.0046,  0.    ]))
+(array([[0.06 , 0.   , 0.071],
+        [0.503, 0.   , 0.076],
+        [0.   , 0.735, 0.   ]]),
+ array([0.211, 0.   , 0.015]))
 ```
 
 This is already a reasonable approximation to the actual ground truth values from above, without including regularization, cross-validation, a larger sample, etc.

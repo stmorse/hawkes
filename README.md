@@ -111,7 +111,7 @@ This is already a reasonable approximation to the actual ground truth values fro
 
 Due to our estimation method (EM) we also get an estimate for the branching matrix $P$.
 
-![Dim 3 event plot](img/multi_branching.png)
+![Dim 3 branching plot](img/multi_plot_branching.png)
 
 Recall this matrix (the estimated latent branching structure) is row-stochastic, with each entry $p_{ij}$ representing the probability that event $i$ was caused by event $j$.  High values along the diagonal indicate self-exciting events.  We see many rows with off-diagonal values, indicating probability of a previous "parent" event causing it.
 
